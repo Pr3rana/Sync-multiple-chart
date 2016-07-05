@@ -1,0 +1,29 @@
+{"Caption":"Project",
+  "subCaption":"Sync multiple chart",
+  "xAxisName": "Time",
+  "yAxis1":"title1",
+  "yAxis2":"title2",
+  "yAxis3":"title3",
+  "dataSet":
+
+  [{
+  "xdata":"time1",
+  "ydata":[1000,700,2000]
+  },
+  {
+  "xdata":"time2",
+  "ydata":[100,90,1000]
+  },
+  {"xdata":"time3",
+  "ydata":[800,100,1500]
+  },
+  {"xdata":"time4",
+  "ydata":[2,400,1800]
+  },
+  {"xdata":"time5",
+  "ydata":[1000,500,1900]
+  },
+  {"xdata":"time6",
+  "ydata":[1000,300,1700]
+  }]
+}
