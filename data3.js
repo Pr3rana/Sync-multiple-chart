@@ -6,53 +6,64 @@ var xmlhttp = new XMLHttpRequest(),json;
 xmlhttp.onreadystatechange = function() {
   if ( xmlhttp.readyState === 4 && xmlhttp.status === 200 ) {
     json = JSON.parse(xmlhttp.responseText);
-      var  dataLen= json.dataSet.length;
+    var  dataLen= json.dataSet.length;
       for(var j=0;j<=dataLen-1;j++){
         xAxisArray.push(json.dataSet[j].xdata);
-
     }
       createChart(json);
   }
 };
 xmlhttp.open("GET", "projectData.json", true);
 xmlhttp.send();
-
-var createChart = function(JSON)
-{
-  this.json=JSON;
-  var Caption = JSON.caption;
-    console.log(Caption);
-  var subCaption=JSON.subCaption;
-    console.log(subCaption);
-  var  titleOptionLen= json.yAxisName.length;
-  var  dataLen= json.dataSet.length;
-    console.log(json.yAxisName.length);
-  var yAxisValue2 = [];
-  for(var i=0;i<=titleOptionLen-1;i++){
-    var yAxisValue1=[];
-      var yAxisTitle=json.yAxisName[i].yAxis;
-        console.log(yAxisTitle);
-        for(var j=0;j<=dataLen-1;j++){
-      var yAxisValue=(json.dataSet[j].ydata[i]);
-      console.log(yAxisValue);
-      yAxisValue1.push(yAxisValue);
-      console.log(yAxisValue1);
-    }
-    yAxisValue2.push(yAxisValue1);
-    console.log(yAxisValue2[i],"value");
-    var Max=Math.max.apply(null, yAxisValue1);
-    var Min= Math.min.apply(null, yAxisValue1);
-    var noOfticks=Math.round(Max/5);
-
-    console.log(i,"i");
-    dataOFChart(Max,Min,xAxisArray,yAxisValue2[i]);
+  var createChart = function(JSON)
+  {
+    this.json=JSON;
+      var Caption = JSON.caption;
+        console.log(Caption);
+        var subCaption=JSON.subCaption;
+        console.log(subCaption);
+            var  titleOptionLen= json.yAxisName.length;
+            var  dataLen= json.dataSet.length;
+            console.log(json.yAxisName.length);
+            var yAxisTitle1=[];
+            var yAxisValue2 = [];
+            var  dataLen= json.dataSet.length;
+                  var yAxisValue1=[];
+                  for (var i = 0; i < (json.dataSet.length)-1; i++) {
+                      for(var j=0;j<=(json.dataSet[i].ydata.length)-1;j++){
+                        var yAxisValue=(json.dataSet[j].ydata[i]);
+                        console.log(yAxisValue,"val");
+                        yAxisValue1.push(yAxisValue);
+                        console.log(yAxisValue1);
+                      }
+                      yAxisValue2.push(yAxisValue1);
+                    }
+                    for(var i=0;i<=titleOptionLen-1;i++){
+                      var yAxisTitle=json.yAxisName[i].yAxis;
+                      yAxisTitle1.push(yAxisTitle);
+                      console.log(yAxisTitle1);
+                      calculate(yAxisValue1);
   }
+    function calculate(yAxisValue1){
+      console.log(yAxisValue1,"value1");
+      Max=Math.max.apply(null, yAxisValue1);
+      Min= Math.min.apply(null, yAxisValue1);
+      noOfticks=Math.round(Max/5);
+      console.log(Max,"max");
+      dataOFChart(Max,Min,xAxisArray,yAxisValue2[i])
+    }
+
+
+
+      console.log(yAxisValue2,"value2");
+      console.log(i);
+
+
     var xAxisTitle=JSON.xAxisName;
     console.log(xAxisTitle);
-    var xAxisValue =xAxisArray;
-    console.log(xAxisValue);
+    console.log(xAxisArray);
     console.log(yAxisValue2);
-
+};
     function dataOFChart(Max,Min,xAxisArray,yAxisValue2){
 
       console.log(yAxisValue2,"yaxis");
@@ -111,7 +122,7 @@ var createChart = function(JSON)
       			rangeArray.push(temp);
       			temp += steps;
       		}
-          console.log(rangeArray,xAxisArray,yAxisValue2,"rangeArray");
+          console.log(rangeArray,xAxisArray,"rangeArray");
       		// return rangeArray;
           plotChart(rangeArray,xAxisArray,yAxisValue2);
       	}
@@ -126,15 +137,15 @@ var createChart = function(JSON)
              yLine.setAttributeNS(null,"stroke","black");
              yLine.setAttributeNS(null,"x1",40);
              yLine.setAttributeNS(null,"x2",40);
-             yLine.setAttributeNS(null,"y1",40);
-             yLine.setAttributeNS(null,"y2",540);
+             yLine.setAttributeNS(null,"y1",0);
+             yLine.setAttributeNS(null,"y2",600);
              svg1.appendChild(xLine);
              svg1.setAttributeNS(null,"class","graph");
              xLine.setAttributeNS(null,"stroke","black");
              xLine.setAttributeNS(null,"x1",40);
-             xLine.setAttributeNS(null,"y1",540);
+             xLine.setAttributeNS(null,"y1",600);
              xLine.setAttributeNS(null,"x2",540);
-             xLine.setAttributeNS(null,"y2",540);
+             xLine.setAttributeNS(null,"y2",600);
              svg1.appendChild(yLine);
              div.appendChild(svg1);
              plotxTick(xAxisArray,svg1,rangeArray,yAxisValue2);
@@ -143,8 +154,8 @@ var createChart = function(JSON)
            function plotxTick(xAxisArray,svg1,rangeArray,yAxisValue2){
              var div =document.getElementById("main");
              for(var i=0;i<=xAxisArray.length-1;i++){
-                 var xCo_ordinate= (500/(xAxisArray.length)*(i))+40;//for xticks
-                 var yCo_ordinate=560; //for xticks
+                 var xCo_ordinate= (600/(xAxisArray.length)*(i))+40;//for xticks
+                 var yCo_ordinate=620; //for xticks
                  console.log(xCo_ordinate);
                  console.log(yCo_ordinate);
 
@@ -156,9 +167,9 @@ var createChart = function(JSON)
                  var xTick=document.createElementNS("http://www.w3.org/2000/svg","line");
                   xTick.setAttributeNS(null,"stroke","red");
                  xTick.setAttributeNS(null,"x1",xCo_ordinate);
-                 xTick.setAttributeNS(null,"y1",535);
+                 xTick.setAttributeNS(null,"y1",595);
                  xTick.setAttributeNS(null,"x2",xCo_ordinate);
-                 xTick.setAttributeNS(null,"y2",550);
+                 xTick.setAttributeNS(null,"y2",605);
                  xTickValue.appendChild(x1);
 
                  svg1.appendChild(xTickValue);
@@ -177,14 +188,14 @@ var createChart = function(JSON)
         // }
 
       var rangeEstimateGenerator = function(min, max,num){
-        return ((num - min) / (max - min));
+        return (num - min) / (max - min);
       }
 
         //plotting of yticks
         for(var j=0;j<=rangeArray.length-1;j++){
           var rangeEstimator = rangeEstimateGenerator(Math.min.apply(null,rangeArray), Math.max.apply(null,rangeArray),rangeArray[j]);
           var xCo_ordinate1=0; //for yTicks
-          var yCo_ordinate1=540-(500 * rangeEstimator);//for y ticks
+          var yCo_ordinate1=600-(600 * rangeEstimator);//for y ticks
 
           console.log(rangeArray[j]);
           console.log(yCo_ordinate1, "kjhjkhkjhk") ;
@@ -192,12 +203,12 @@ var createChart = function(JSON)
             var div =document.getElementById("main");
             var yTickValue=document.createElementNS("http://www.w3.org/2000/svg","text");
             yTickValue.setAttributeNS(null,"x",xCo_ordinate1);
-            yTickValue.setAttributeNS(null,"y",yCo_ordinate1);
+            yTickValue.setAttributeNS(null,"y",yCo_ordinate1+12);
             var yTick=document.createElementNS("http://www.w3.org/2000/svg","line");
-            yTick.setAttributeNS(null,"stroke","blue");
+            yTick.setAttributeNS(null,"stroke","red");
             yTick.setAttributeNS(null,"x1",40);
             yTick.setAttributeNS(null,"y1",yCo_ordinate1);
-            yTick.setAttributeNS(null,"x2",500);
+            yTick.setAttributeNS(null,"x2",540);
             yTick.setAttributeNS(null,"y2",yCo_ordinate1);
             var y1=document.createTextNode(rangeArray[j]);
             yTickValue.appendChild(y1);
@@ -211,24 +222,11 @@ var createChart = function(JSON)
             //plotting of yticks
             function plotAnchor(svg1,div,yAxisValue2,xAxisArray){
 
-              var rangeEstimateGenerator = function(min, max,num){
-                return ((num - min) / (max - min));
-              }
-               for (var i = 0; i < yAxisValue2.length; i++) {
+               for (var i = 0; i < yAxisValue2.length-1; i++) {
+                 console.log(yAxisValue2);
                 var yVal=yAxisValue2[i];
-                console.log(yAxisValue2[i],"actualdata");
-                 var cx=(500/(xAxisArray.length)*(i))+40;//for x
-
-
-                   //plotting of yticks
-
-                     var rangeEstimator = rangeEstimateGenerator(Math.min.apply(null,yAxisValue2), Math.max.apply(null,yAxisValue2),yAxisValue2[i]);
-                      //for yTicks
-                     var cy=(540-(500 *rangeEstimator));
-                    //  var min=Math.min.apply(null,yAxisValue2);
-                    //  var max=Math.max.apply(null,yAxisValue2);
-                    //  var cy = ((yVal-min)/(max-min))*yVal*700;
-                 //for xticks
+                 var cx= (600/(xAxisArray.length))*i;//for x
+                 var cy=(yAxisValue2[i]-Math.min.apply(null,yAxisValue2))/(Math.max.apply(null,yAxisValue2)-Math.min.apply(null,yAxisValue2))*yAxisValue2[i];//for xticks
                  console.log(cy,"cy");
                 console.log(cx,"cx");
                  var anchor=document.createElementNS("http://www.w3.org/2000/svg","circle");
@@ -239,16 +237,4 @@ var createChart = function(JSON)
                 svg1.appendChild(anchor);
                 div.appendChild(svg1);
               }
-              plotLne(cx,cy,svg1,div);
-              }
-};
-
-  function plotLne(px,py,svg1,div){
-    var polyline =document.createElementNS("http://www.w3.org/2000/svg","polyline");
-       anchor.setAttributeNS(null,"stroke","red");
-       anchor.setAttributeNS(null,"cx",cx);
-       anchor.setAttributeNS(null,"cy",cy);
-       anchor.setAttributeNS(null,"r",4);
-   svg1.appendChild(anchor);
-   div.appendChild(svg1);
-  }
+              };

@@ -9,7 +9,6 @@ xmlhttp.onreadystatechange = function() {
       var  dataLen= json.dataSet.length;
       for(var j=0;j<=dataLen-1;j++){
         xAxisArray.push(json.dataSet[j].xdata);
-
     }
       createChart(json);
   }
@@ -38,13 +37,13 @@ var createChart = function(JSON)
       yAxisValue1.push(yAxisValue);
       console.log(yAxisValue1);
     }
-    yAxisValue2.push(yAxisValue1);
-    console.log(yAxisValue2[i],"value");
+    yAxisValue2.push(yAxisValue1,"value");
+
     var Max=Math.max.apply(null, yAxisValue1);
     var Min= Math.min.apply(null, yAxisValue1);
     var noOfticks=Math.round(Max/5);
-
-    console.log(i,"i");
+    console.log("jhhjjn");
+    console.log(i);
     dataOFChart(Max,Min,xAxisArray,yAxisValue2[i]);
   }
     var xAxisTitle=JSON.xAxisName;
@@ -52,11 +51,12 @@ var createChart = function(JSON)
     var xAxisValue =xAxisArray;
     console.log(xAxisValue);
     console.log(yAxisValue2);
+};
 
-    function dataOFChart(Max,Min,xAxisArray,yAxisValue2){
 
-      console.log(yAxisValue2,"yaxis");
-      console.log(Min,"min");
+
+    function dataOFChart(Max,Min,xAxisArray,yAxisData){
+      console.log(Min);
       console.log(Max);
 
 
@@ -111,144 +111,129 @@ var createChart = function(JSON)
       			rangeArray.push(temp);
       			temp += steps;
       		}
-          console.log(rangeArray,xAxisArray,yAxisValue2,"rangeArray");
+          console.log(rangeArray,xAxisArray);
       		// return rangeArray;
-          plotChart(rangeArray,xAxisArray,yAxisValue2);
+          plotChart(rangeArray,xAxisArray,yAxisData);
       	}
          // End getYRange
-         function plotChart(rangeArray,xAxisArray,yAxisValue2){
-             var div =document.getElementById("main");
+         function plotChart(rangeArray,xAxisArray,yAxisData){
+             var div=document.getElementById("main");
              console.log(div);
-             var svg1 = document.createElementNS("http://www.w3.org/2000/svg","svg");
-             svg1.setAttributeNS(null,"class","graph");
+             var svg = document.createElementNS("http://www.w3.org/2000/svg","svg");
+
+             svg.setAttributeNS(null,"class","graph");
+
+             var g1=document.createElementNS("http://www.w3.org/2000/svg","g");
+             g1.setAttribute(null,"class","grid-x-grid");
+             g1.setAttribute(null,"id","xGrid");
              var xLine=document.createElementNS("http://www.w3.org/2000/svg","line");
              var yLine=document.createElementNS("http://www.w3.org/2000/svg","line");
              yLine.setAttributeNS(null,"stroke","black");
-             yLine.setAttributeNS(null,"x1",40);
-             yLine.setAttributeNS(null,"x2",40);
-             yLine.setAttributeNS(null,"y1",40);
-             yLine.setAttributeNS(null,"y2",540);
-             svg1.appendChild(xLine);
-             svg1.setAttributeNS(null,"class","graph");
+             yLine.setAttributeNS(null,"x1",50);
+             yLine.setAttributeNS(null,"x2",50);
+             yLine.setAttributeNS(null,"y1",0);
+             yLine.setAttributeNS(null,"y2",600);
+             var g2=document.createElementNS("http://www.w3.org/2000/svg","g");
              xLine.setAttributeNS(null,"stroke","black");
-             xLine.setAttributeNS(null,"x1",40);
-             xLine.setAttributeNS(null,"y1",540);
-             xLine.setAttributeNS(null,"x2",540);
-             xLine.setAttributeNS(null,"y2",540);
-             svg1.appendChild(yLine);
-             div.appendChild(svg1);
-             plotxTick(xAxisArray,svg1,rangeArray,yAxisValue2);
+             xLine.setAttributeNS(null,"x1",50);
+             xLine.setAttributeNS(null,"y1",600);
+             xLine.setAttributeNS(null,"x2",705);
+             xLine.setAttributeNS(null,"y2",600);
 
-           }
-           function plotxTick(xAxisArray,svg1,rangeArray,yAxisValue2){
-             var div =document.getElementById("main");
              for(var i=0;i<=xAxisArray.length-1;i++){
-                 var xCo_ordinate= (500/(xAxisArray.length)*(i))+40;//for xticks
-                 var yCo_ordinate=560; //for xticks
+                 var xCo_ordinate= (600/(xAxisArray.length)*(i))+50;//for xticks
+                 var yCo_ordinate=620; //for xticks
                  console.log(xCo_ordinate);
                  console.log(yCo_ordinate);
+
+                 var g3=document.createElementNS("http://www.w3.org/2000/svg","g"); //plotting of xticks
+                 g3.setAttributeNS(null,"class","labels x-labels");
+                 g3.setAttribute(null,"class","grid-x-grid");
+                 g3.setAttribute(null,"id","xGrid");
 
                  var xTickValue=document.createElementNS("http://www.w3.org/2000/svg","text");
                  xTickValue.setAttributeNS(null,"x",xCo_ordinate);
                  xTickValue.setAttributeNS(null,"y",yCo_ordinate);
                  var x1=document.createTextNode(xAxisArray[i]);
-                 console.log(xAxisArray);
+
                  var xTick=document.createElementNS("http://www.w3.org/2000/svg","line");
                   xTick.setAttributeNS(null,"stroke","red");
                  xTick.setAttributeNS(null,"x1",xCo_ordinate);
-                 xTick.setAttributeNS(null,"y1",535);
+                 xTick.setAttributeNS(null,"y1",590);
                  xTick.setAttributeNS(null,"x2",xCo_ordinate);
-                 xTick.setAttributeNS(null,"y2",550);
+                 xTick.setAttributeNS(null,"y2",600);
                  xTickValue.appendChild(x1);
-
-                 svg1.appendChild(xTickValue);
-                 svg1.appendChild(xTick);
-                div.appendChild(svg1);
+                 g3.appendChild(xTick);
+                 g3.appendChild(xTickValue);
+                svg.appendChild(g3);
+                div.appendChild(svg);
       }
-        plotYTick(rangeArray,svg1,yAxisValue2,xAxisArray);
-    };
-
-    //plotting of xticks
-      function plotYTick(rangeArray,svg1,yAxisValue2,xAxisArray){
-        console.log("yplot");
-
-        // return function(num){
-        //   rangeEstimateGenerator
-        // }
-
-      var rangeEstimateGenerator = function(min, max,num){
-        return ((num - min) / (max - min));
+      //plotting of xticks
+      var rangeEstimateGenerator = function(min, max){
+          return function(num){
+              return (num - min) / (max - min);
+          }
       }
+      var rangeEstimator = rangeEstimateGenerator(Math.min.apply(null,rangeArray), Math.max.apply(null,rangeArray));
 
         //plotting of yticks
         for(var j=0;j<=rangeArray.length-1;j++){
-          var rangeEstimator = rangeEstimateGenerator(Math.min.apply(null,rangeArray), Math.max.apply(null,rangeArray),rangeArray[j]);
-          var xCo_ordinate1=0; //for yTicks
-          var yCo_ordinate1=540-(500 * rangeEstimator);//for y ticks
-
+          var xCo_ordinate1=50; //for yTicks
+          var yCo_ordinate1=600-(600 * rangeEstimator(rangeArray[j]));//for y ticks
           console.log(rangeArray[j]);
           console.log(yCo_ordinate1, "kjhjkhkjhk") ;
+            var g4=document.createElementNS("http://www.w3.org/2000/svg","g");
             //plotting of yticks
-            var div =document.getElementById("main");
+            g4.setAttributeNS(null,"class","labels x-labels");
+            g4.setAttribute(null,"class","grid-x-grid");
+            g4.setAttribute(null,"id","xGrid");
             var yTickValue=document.createElementNS("http://www.w3.org/2000/svg","text");
-            yTickValue.setAttributeNS(null,"x",xCo_ordinate1);
-            yTickValue.setAttributeNS(null,"y",yCo_ordinate1);
+            yTickValue.setAttributeNS(null,"x",xCo_ordinate1-25);
+            yTickValue.setAttributeNS(null,"y",yCo_ordinate1+5);
             var yTick=document.createElementNS("http://www.w3.org/2000/svg","line");
-            yTick.setAttributeNS(null,"stroke","blue");
-            yTick.setAttributeNS(null,"x1",40);
+            yTick.setAttributeNS(null,"stroke","red");
+            yTick.setAttributeNS(null,"x1",45);
             yTick.setAttributeNS(null,"y1",yCo_ordinate1);
-            yTick.setAttributeNS(null,"x2",500);
+            yTick.setAttributeNS(null,"x2",55);
             yTick.setAttributeNS(null,"y2",yCo_ordinate1);
             var y1=document.createTextNode(rangeArray[j]);
             yTickValue.appendChild(y1);
             console.log("jhkjhkj");
-            svg1.appendChild(yTick);
-            svg1.appendChild(yTickValue);
-            div.appendChild(svg1);
+            g4.appendChild(yTick);
+            g4.appendChild(yTickValue);
+            svg.appendChild(g4);
+            div.appendChild(svg);
           }
-          plotAnchor(svg1,div,yAxisValue2,xAxisArray);
-        }
             //plotting of yticks
-            function plotAnchor(svg1,div,yAxisValue2,xAxisArray){
 
-              var rangeEstimateGenerator = function(min, max,num){
-                return ((num - min) / (max - min));
-              }
-               for (var i = 0; i < yAxisValue2.length; i++) {
-                var yVal=yAxisValue2[i];
-                console.log(yAxisValue2[i],"actualdata");
-                 var cx=(500/(xAxisArray.length)*(i))+40;//for x
+         console.log(x1);
+         g1.appendChild(xLine);
+         g2.appendChild(yLine);
+         svg.appendChild(g2);
+         svg.appendChild(g1);
 
+               for (var i = 0; i < yAxisData.length-1; i++) {
+                 console.log(yAxisData,"data");
 
-                   //plotting of yticks
+                 var cx= (600/(xAxisArray.length)*(i));//for x
+                 var min=Math.min.apply(null,yAxisValue2);
+                 var max=Math.max.apply(null,yAxisValue2);
+                 var cy = ((yVal-min)/(max-min))*600;//for xticks
+                 console.log(cy);
 
-                     var rangeEstimator = rangeEstimateGenerator(Math.min.apply(null,yAxisValue2), Math.max.apply(null,yAxisValue2),yAxisValue2[i]);
-                      //for yTicks
-                     var cy=(540-(500 *rangeEstimator));
-                    //  var min=Math.min.apply(null,yAxisValue2);
-                    //  var max=Math.max.apply(null,yAxisValue2);
-                    //  var cy = ((yVal-min)/(max-min))*yVal*700;
-                 //for xticks
-                 console.log(cy,"cy");
-                console.log(cx,"cx");
+                 var g5=document.createElementNS("http://www.w3.org/2000/svg","g"); //plotting of xticks
+                 g5.setAttributeNS(null,"class","labels x-labels");
+                 g5.setAttribute(null,"class","grid-x-grid");
+                 g5.setAttribute(null,"id","xGrid");
                  var anchor=document.createElementNS("http://www.w3.org/2000/svg","circle");
                     anchor.setAttributeNS(null,"stroke","red");
-                    anchor.setAttributeNS(null,"cx",cx);
-                    anchor.setAttributeNS(null,"cy",cy);
-                    anchor.setAttributeNS(null,"r",4);
-                svg1.appendChild(anchor);
-                div.appendChild(svg1);
-              }
-              plotLne(cx,cy,svg1,div);
-              }
-};
+                    anchor.setAttributeNS(null,"cs",100);
+                    anchor.setAttributeNS(null,"cy",100);
+                    anchor.setAttributeNS(null,"r",8);
+                 g5.appendChild(anchor);
+                svg.appendChild(anchor);
+                div.appendChild(svg);
+               }
 
-  function plotLne(px,py,svg1,div){
-    var polyline =document.createElementNS("http://www.w3.org/2000/svg","polyline");
-       anchor.setAttributeNS(null,"stroke","red");
-       anchor.setAttributeNS(null,"cx",cx);
-       anchor.setAttributeNS(null,"cy",cy);
-       anchor.setAttributeNS(null,"r",4);
-   svg1.appendChild(anchor);
-   div.appendChild(svg1);
-  }
+
+};
