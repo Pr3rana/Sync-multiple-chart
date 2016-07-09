@@ -1,11 +1,11 @@
 { "caption":"Project",
   "subCaption":"Sync multiple chart",
-  "xAxisName": "Time",
+  "xAxisName": "TimeAxis",
   "yAxisName":[
-  {"yAxis":"title1"},
-  {"yAxis":"title2"},
-  {"yAxis":"title3"},
-  {"yAxis":"title4"}
+  {"yAxis":"yAxisTitle1"},
+  {"yAxis":"yAxisTitle2"},
+  {"yAxis":"yAxisTitle3"},
+  {"yAxis":"yAxisTitle"}
 ],
   "dataSet":
   [{
