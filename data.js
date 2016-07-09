@@ -59,11 +59,11 @@ var createChart = function(JSON) //createChart
     var Min= Math.min.apply(null, yAxisValue1);
     var noOfticks=Math.round(Max/5);
 
+    xAxisTitle=JSON.xAxisName;
+    console.log(xAxisTitle);
     console.log(i,"i");
     dataOFChart(Max,Min,xAxisArray,yAxisValue2[i], yAxisTitle);
   }
-    var xAxisTitle=JSON.xAxisName;
-    console.log(xAxisTitle);
     var xAxisValue =xAxisArray;
     console.log(xAxisValue);
     console.log(yAxisValue2);
@@ -180,6 +180,12 @@ var createChart = function(JSON) //createChart
                  svg1.appendChild(xTick);
                 div.appendChild(svg1);
       }
+      var xAxisName=document.createElementNS("http://www.w3.org/2000/svg","text");
+      xAxisName.setAttributeNS(null,"x",400);
+      xAxisName.setAttributeNS(null,"y",yCo_ordinate+20);
+      var x2=document.createTextNode(xAxisTitle);
+      xAxisName.appendChild(x2);
+      svg1.appendChild(xAxisName);
         plotYTick(rangeArray,svg1,yAxisValue2,xAxisArray, yAxisTitle);
     };
 
@@ -204,7 +210,7 @@ var createChart = function(JSON) //createChart
             //plotting of yticks
             var div =document.getElementById("main");
             var yTickValue=document.createElementNS("http://www.w3.org/2000/svg","text");
-              
+
             yTickValue.setAttributeNS(null,"x",xCo_ordinate1);
             yTickValue.setAttributeNS(null,"y",yCo_ordinate1);
             var yTick=document.createElementNS("http://www.w3.org/2000/svg","line");
@@ -214,7 +220,7 @@ var createChart = function(JSON) //createChart
             yTick.setAttributeNS(null,"x2",500);
             yTick.setAttributeNS(null,"y2",yCo_ordinate1);
             var y1=document.createTextNode(rangeArray[j]);
-            
+
 
             yTickValue.appendChild(y1);
             console.log("jhkjhkj");
@@ -222,6 +228,12 @@ var createChart = function(JSON) //createChart
             svg1.appendChild(yTickValue);
             div.appendChild(svg1);
           }
+          var yAxisName=document.createElementNS("http://www.w3.org/2000/svg","text");
+          yAxisName.setAttributeNS(null,"x",400);
+          yAxisName.setAttributeNS(null,"y",yCo_ordinate1+20);
+          var y2=document.createTextNode(yAxisTitle);
+          yAxisName.appendChild(y2);
+          svg1.appendChild(yAxisName);
           plotAnchor(svg1,div,yAxisValue2,xAxisArray);
         }
             //plotting of yticks
