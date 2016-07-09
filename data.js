@@ -225,14 +225,13 @@ var createChart = function(JSON)
                      var rangeEstimator = rangeEstimateGenerator(Math.min.apply(null,yAxisValue2), Math.max.apply(null,yAxisValue2),yAxisValue2[i]);
                       //for yTicks
                      var cy=(540-(500 *rangeEstimator));
-                    //  var min=Math.min.apply(null,yAxisValue2);
-                    //  var max=Math.max.apply(null,yAxisValue2);
-                    //  var cy = ((yVal-min)/(max-min))*yVal*700;
+                    
                  //for xticks
                  console.log(cy,"cy");
                 console.log(cx,"cx");
                  var anchor=document.createElementNS("http://www.w3.org/2000/svg","circle");
-                    anchor.setAttributeNS(null,"stroke","red");
+                  anchor.setAttributeNS(null, "fill", "green");
+
                     anchor.setAttributeNS(null,"cx",cx);
                     anchor.setAttributeNS(null,"cy",cy);
                     anchor.setAttributeNS(null,"r",4);
@@ -243,12 +242,10 @@ var createChart = function(JSON)
               }
 };
 
-  function plotLne(px,py,svg1,div){
-    var polyline =document.createElementNS("http://www.w3.org/2000/svg","polyline");
-       anchor.setAttributeNS(null,"stroke","red");
-       anchor.setAttributeNS(null,"cx",cx);
-       anchor.setAttributeNS(null,"cy",cy);
-       anchor.setAttributeNS(null,"r",4);
-   svg1.appendChild(anchor);
-   div.appendChild(svg1);
-  }
+  // function plotLne(px,py,svg1,div){
+  //   var polyline =document.createElementNS("http://www.w3.org/2000/svg","polyline");
+  //      polyline.setAttributeNS(null,"points",px,py);
+  //
+  //  svg1.appendChild(polyline);
+  //  div.appendChild(svg1);
+  // }
