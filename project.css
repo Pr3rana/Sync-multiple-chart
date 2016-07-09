@@ -13,8 +13,17 @@ body {
 .graph {
   height: 600px;
   width: 500px;
+  margin-top: 30px;
+  margin-left: 200px;
+  margin-right: 200px;
+}
+.graph1 {
+  height: 100px;
+  width: 500px;
   margin-top: 50px;
-  margin-left: 100px;
+  margin-left: 300px;
+  margin-right: 300px;
+
 }
 
 .graph .grid {
