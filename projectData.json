@@ -1,32 +1,40 @@
 { "caption":"Project",
   "subCaption":"Sync multiple chart",
-  "xAxisName": "TimeAxis",
+  "xAxisName": "Time_Axis",
   "yAxisName":[
-  {"yAxis":"yAxisTitle1"},
-  {"yAxis":"yAxisTitle2"},
-  {"yAxis":"yAxisTitle3"},
-  {"yAxis":"yAxisTitle4"},
-  {"yAxis":"yAxisTitle5"}
+  {"yAxis":"yAxis_Title1"},
+  {"yAxis":"yAxis_Title2"},
+  {"yAxis":"yAxis_Title3"},
+  {"yAxis":"yAxis_Title4"},
+  {"yAxis":"yAxis_Title5"}
 ],
   "dataSet":
   [{
   "xdata":"time1",
-  "ydata":[-100,455,2000,254,0]
+  "ydata":["",455,2000,254,4]
   },
   {
   "xdata":"time2",
-  "ydata":[50,688,1000,530,0]
+  "ydata":[45,688,"",530,0]
   },
   {"xdata":"time3",
-  "ydata":[-800,166,1500,675,0]
+  "ydata":["",166,1500,675,0]
   },
   {"xdata":"time4",
-  "ydata":[206,700,1800,403,0]
+  "ydata":["",700,1800,403,1]
   },
   {"xdata":"time5",
-  "ydata":[750,573,1900,784,0]
+  "ydata":["",573,1900,784,5]
   },
   {"xdata":"time6",
-  "ydata":[400,333,1700,120,0.8]
+  "ydata":["",333,1700,120,0.8]
+  },
+
+  {
+  "xdata":"time7",
+  "ydata":["",688,"",530,0]
+  },
+  {"xdata":"time8",
+  "ydata":["",166,1500,675,0]
   }]
 }

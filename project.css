@@ -9,12 +9,12 @@ body {
 
 
 .graph {
-  height: 600px;
+  height: 700px;
   width: 600px;
   margin-top: 10px;
   margin-left: 100px;
   margin-right: 200px;
-  background-color: beige;
+  background-color:#f2f2f2;
 
 }
 .graph1 {
@@ -24,6 +24,7 @@ body {
   margin-left: 300px;
   margin-right: 300px;
   background-color:#FFEBCD;
+  stroke-width: .01;
 
 }
 
@@ -31,7 +32,7 @@ body {
 .labels {
   font-size: 15px;
   font-family: 'Open Sans', sans-serif;
-  fill:green;
+  fill:black;
   height:5px;
   width: 10px;
   background-color: green;
@@ -43,13 +44,25 @@ body {
 
 .divLine {
 
-  stroke: blue;
+  stroke: black;
   stroke-dasharray: 5;
   stroke-width: .5;
 }
 
 .anchor {
-  opacity: .75;
-  fill: green;
-  cursor: crosshair;
+  
+  fill:green ;
+  opacity: 20;
+  stroke: black;
+  stroke-width: 1.8;
+ /* cursor: crosshair;*/
+}
+.line{
+  stroke: blue;
+  stroke-width: 3;
+}
+.tooltip{
+  background: black;
+  color: white;
+  padding: 5px;
 }
