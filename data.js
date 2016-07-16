@@ -211,7 +211,7 @@ var createChart = function(JSON) //createChart
                     xAxisName.setAttributeNS(null, "class", "labels");
                     var x2 = document.createTextNode(xAxisTitle);
                     xAxisName.appendChild(x2);
-                    // svg1.appendChild(rect);
+                  
                     svg1.appendChild(xAxisName);
                 }
 
