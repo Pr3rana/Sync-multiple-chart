@@ -26,21 +26,18 @@ var createChart = function(JSON) //createChart
 
         //plotting caption and subCaption
         var div = document.getElementById("top");
-        var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-        svg.setAttributeNS(null, "class", "graph1");
-        var text1 = document.createElementNS("http://www.w3.org/2000/svg", "text");
-        text1.setAttributeNS(null, "x", 68);
-        text1.setAttributeNS(null, "y", 30);
-        var text2 = document.createElementNS("http://www.w3.org/2000/svg", "text");
-        text2.setAttributeNS(null, "x", 30);
-        text2.setAttributeNS(null, "y", 55);
+        var h2 = document.createElement("h2");
+        var h3 = document.createElement("h3");
+        div.setAttributeNS(null, "class", "heading");
+        
         var caption = document.createTextNode(JSON.caption);
         var subCaption = document.createTextNode(JSON.subCaption);
-        text1.appendChild(caption);
-        text2.appendChild(subCaption);
-        svg.appendChild(text1);
-        svg.appendChild(text2);
-        div.appendChild(svg); //plotting caption and subCaption
+        h2.appendChild(caption);
+        h3.appendChild(subCaption);
+        
+        div.appendChild(h2);
+        div.appendChild(h3); //plotting caption and subCaption
+
 
         titleOptionLen = json.yAxisName.length;
         var dataLen = json.dataSet.length;
@@ -145,6 +142,20 @@ var createChart = function(JSON) //createChart
             var div = document.getElementById("main");
 
             var svg1 = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            var outerRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+            outerRect.setAttributeNS(null,"class","outerRect");
+            outerRect.setAttributeNS(null,"width",500);
+            outerRect.setAttributeNS(null,"height",500);
+            outerRect.setAttributeNS(null,"x",90);
+            outerRect.setAttributeNS(null,"y",40);
+            outerRect.setAttributeNS(null,"stroke","black");
+            outerRect.setAttributeNS(null,"opacity",.5);
+            outerRect.setAttributeNS(null,"stroke-width",.5);
+
+
+
+
+
 
             svg1.setAttributeNS(null, "class", "graph");
             var xLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
@@ -154,14 +165,15 @@ var createChart = function(JSON) //createChart
             xLine.setAttributeNS(null, "y1", 540);
             xLine.setAttributeNS(null, "x2", 590);
             xLine.setAttributeNS(null, "y2", 540);
-            svg1.appendChild(xLine);
+            outerRect.appendChild(xLine);
             var yLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
             yLine.setAttributeNS(null, "stroke", "black");
             yLine.setAttributeNS(null, "x1", 90);
             yLine.setAttributeNS(null, "x2", 90);
             yLine.setAttributeNS(null, "y1", 40);
             yLine.setAttributeNS(null, "y2", 540);
-            svg1.appendChild(yLine);
+            outerRect.appendChild(yLine);
+            svg1.appendChild(outerRect);
             div.appendChild(svg1);
             plotxTick(xAxisArray, svg1, rangeArray, yAxisValue2, yAxisTitle, div, svgIndex);
 
@@ -180,7 +192,10 @@ var createChart = function(JSON) //createChart
                 var x1 = document.createTextNode(xAxisArray[i]);
 
                 var xTick = document.createElementNS("http://www.w3.org/2000/svg", "line");
-                xTick.setAttributeNS(null, "stroke", "red");
+                xTick.setAttributeNS(null, "stroke", "black");
+                xTick.setAttributeNS(null, "stroke-width", .5);
+                xTick.setAttributeNS(null, "opacity", .5);
+
                 xTick.setAttributeNS(null, "x1", xCo_ordinate);
                 xTick.setAttributeNS(null, "y1", 540);
                 xTick.setAttributeNS(null, "x2", xCo_ordinate);
@@ -216,27 +231,27 @@ var createChart = function(JSON) //createChart
         function plotYTick(rangeArray, svg1, yAxisValue2, xAxisArray, yAxisTitle, div, svgIndex) {
 
 
-            var rangeEstimateGenerator = function(min, max, num) {
+            var rangeFinder= function(min, max, num) {
                 return ((num - min) / (max - min));
             }
 
 
             //plotting of yticks
             for (var j = 0; j <= rangeArray.length - 1; j++) {
-                var rangeEstimator = rangeEstimateGenerator(Math.min.apply(null, rangeArray), Math.max.apply(null, rangeArray), rangeArray[j]);
+                var rangeCalculator = rangeFinder(Math.min.apply(null, rangeArray), Math.max.apply(null, rangeArray), rangeArray[j]);
                 var xCo_ordinate1 = 50; //for yTicks
-                var yCo_ordinate1 = 540 - (500 * rangeEstimator); //for y ticks
+                var yCo_ordinate1 = 540 - (500 * rangeCalculator); //for y ticks
 
 
                 //plotting of yticks
 
                 var yTickValue = document.createElementNS("http://www.w3.org/2000/svg", "text");
 
-                yTickValue.setAttributeNS(null, "x", xCo_ordinate1);
-                yTickValue.setAttributeNS(null, "y", yCo_ordinate1);
+                yTickValue.setAttributeNS(null, "x", xCo_ordinate1-5);
+                yTickValue.setAttributeNS(null, "y", yCo_ordinate1+8);
                 var yTick = document.createElementNS("http://www.w3.org/2000/svg", "line");
                 yTick.setAttributeNS(null, "class", "divLine");
-                yTick.setAttributeNS(null, "x1", 85);
+                yTick.setAttributeNS(null, "x1", 80);
                 yTick.setAttributeNS(null, "y1", yCo_ordinate1);
                 yTick.setAttributeNS(null, "x2", 590);
                 yTick.setAttributeNS(null, "y2", yCo_ordinate1);
@@ -268,13 +283,14 @@ var createChart = function(JSON) //createChart
         function plotAnchor(svg1, div, yAxisValue2, xAxisArray, rangeArray, svgIndex) {
 
             // console.log(yAxisValue2,"yaxis");
-            var rangeEstimateGenerator = function(min, max, num) {
+            var rangeFinder = function(min, max, num) {
                     return ((num - min) / (max - min));
                 }
-                // hairLineData= [];
+
             var flag = 0;
 
             hairLineData[svgIndex] = {};
+
             for (var i = 0; i < yAxisValue2.length; i++) {
                 var yVal = yAxisValue2[i];
 
@@ -284,15 +300,12 @@ var createChart = function(JSON) //createChart
 
                 var cx = (500 / (xAxisArray.length) * (i)) + 90; //for x co-ordinate
 
-                var rangeEstimator = rangeEstimateGenerator(Math.min.apply(null, rangeArray), Math.max.apply(null, rangeArray), yAxisValue2[i]);
+                var rangeCalculator = rangeFinder(Math.min.apply(null, rangeArray), Math.max.apply(null, rangeArray), yAxisValue2[i]);
                 //for anchors y co-ordinate
-                var cy = (540 - (500 * rangeEstimator));
+                var cy = (540 - (500 * rangeCalculator));
                 if (cx != undefined && cy != undefined) {
                     flag++;
                 }
-
-
-
 
                 var tempX = cx;
                 var tempY = cy;
@@ -308,7 +321,7 @@ var createChart = function(JSON) //createChart
                 var x = document.createTextNode(yAxisValue2[i]);
                 anchor.setAttributeNS(null, "cx", cx);
                 anchor.setAttributeNS(null, "cy", cy);
-                anchor.setAttributeNS(null, "r", 4);
+                anchor.setAttributeNS(null, "r", 5.5);
                 anchor.setAttributeNS(null, "class", "anchor");
                 anchor.setAttributeNS(null, "data-value", yAxisValue2[i]);
                 title.appendChild(x);
@@ -319,9 +332,10 @@ var createChart = function(JSON) //createChart
                 var py = tempY;
 
                 hairLineData[svgIndex][Math.floor(cx)] = [anchor,yAxisValue2[i] ];
+                console.log(hairLineData[svgIndex][Math.floor(cx)],"check");
             }
 
-        }
+        }console.log(hairLineData,"index");
     };
 // plotting of line beetween anchor points
 function plotLne(px, py, tempX, tempY, svg1, div, svgIndex) {
@@ -341,25 +355,11 @@ function hairLineMove() {
 
         (function(i) {
             var currentSvg = document.getElementsByClassName("graph")[i];
+            var outerRect=document.getElementsByClassName("outerRect")[i];
 
 
-            // // for(var j=0; j<=anchors.length-1;j++){
 
-            // //   var reqAnchor= anchors[j];
-            // //   // // console.log(reqAnchor.parentNode);
-            // //   //   // console.log(reqAnchor,"reqAnchor");
-            // //   //   // console.log(hairLineData,"hairLinesss");
-
-            //   reqAnchor.addEventListener("mousemove",function(e){
-
-            //       var event = new CustomEvent("match",{
-            //         detail:{ "mousePos":e.clientX,"anchorsData":hairLineData} 
-            //       });
-
-            //    document.dispatchEvent(event);   
-            //   });
-
-            currentSvg.addEventListener("mousemove", function(event) {
+            outerRect.addEventListener("mousemove", function(event) {
                 // console.log("mouseenter fired");
                 var anchors = currentSvg.getElementsByClassName("anchor");
                 // console.log(anchors,"anchor")
@@ -368,9 +368,9 @@ function hairLineMove() {
                 });
                 document.dispatchEvent(event);
             });
-            currentSvg.addEventListener("mouseout", function(e) {
+            outerRect.addEventListener("mouseout", function(e) {
                 var event = new CustomEvent("draw", {
-                    detail: -1000
+                    detail: -1
                 });
                 document.dispatchEvent(event);
             });
@@ -400,57 +400,39 @@ function drawLine(svg, event, i) {
     hairLine[i].setAttributeNS(null, "x2", event.detail - 105);
     hairLine[i].setAttributeNS(null, "y1", 40);
     hairLine[i].setAttributeNS(null, "y2", 540);
-    hairLine[i].setAttributeNS(null, "stroke", "red");
+    hairLine[i].setAttributeNS(null, "class", "hairLine");
 
     // document.dispatchEvent(event);
 };
-  var cumulativeOffset = function(element) {
-      var top = 0, left = 0;
-      do {
-          top += element.offsetTop  || 0;
-          left += element.offsetLeft || 0;
-          element = element.offsetParent;
-      } while(element);
-
-      return {
-          top: top,
-          left: left
-      };
-  };
+  
 
 
 function drawToolTip(mousePos, svg, svgIndex) {
 
-        // // console.log(event.detail.mousePos-100,"mousePos");       
-        /*if ((event.detail.mousePos - 106) === Math.round(event.detail.anchorsData[j].cx1)) {
-
-            var toolTip = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-            toolTip.setAttributeNS(null, "stroke", "black");
-            toolTip.setAttributeNS(null, "height", 50);
-            toolTip.setAttributeNS(null, "width", 50);
-            toolTip.setAttributeNS(null, "x", (Math.round(event.detail.anchorsData[j].cx1)));
-            toolTip.setAttributeNS(null, "y", 200);
-            svg.appendChild(toolTip);
-        }*/
-
-        if(tooltipData[svgIndex] === undefined){
+       
+    if(tooltipData[svgIndex] === undefined){
+     timeout =  setTimeout(function() {
           tooltipData[svgIndex] = document.createElement("div");
+          document.body.appendChild(tooltipData[svgIndex]);
+    }, 0);
+      }
+        else{
+        document.body.removeChild(tooltipData[svgIndex]);
+        tooltipData[svgIndex] = document.createElement("div");
           document.body.appendChild(tooltipData[svgIndex]);
         }
 
 
-        
-        console.log(svgIndex, "hey", (cumulativeOffset(svg).top))
-
-
-        for(var k = Math.floor(mousePos) - 5; k < Math.floor(mousePos) + 5; ++k){
+        for(var k = Math.floor(mousePos) -5; k < Math.floor(mousePos) + 5; ++k){
+          console.log(hairLineData[svgIndex][k-106],"hello");
           if(hairLineData[svgIndex][k - 106]){
-            var style = "position:absolute;top:" + (svgIndex * 700 +380) + "px;left:";
+            var style = "position:absolute;top:" + (svgIndex * 700 +180) + "px;left:";
             style += (mousePos + 20) + "px;";
             tooltipData[svgIndex].setAttribute("style", style);
             tooltipData[svgIndex].setAttribute("class", "tooltip");
-            tooltipData[svgIndex].innerHTML = hairLineData[svgIndex][k - 106][1]; 
+
+            tooltipData[svgIndex].innerHTML = hairLineData[svgIndex][k - 106][1];
             console.log(hairLineData[svgIndex], k - 106, "hey")
-          }  
+          }
         }
     }

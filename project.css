@@ -9,25 +9,19 @@ body {
 
 
 .graph {
-  height: 700px;
-  width: 600px;
+  height: 600px;
+  width: 680px;
   margin-top: 10px;
   margin-left: 100px;
   margin-right: 200px;
+  
+
+}
+#main{
   background-color:#f2f2f2;
-
+  margin-right: 470px;
+   
 }
-.graph1 {
-  height: 80px;
-  width: 200px;
-  margin-top: 50px;
-  margin-left: 300px;
-  margin-right: 300px;
-  background-color:#FFEBCD;
-  stroke-width: .01;
-
-}
-
 
 .labels {
   font-size: 15px;
@@ -45,24 +39,61 @@ body {
 .divLine {
 
   stroke: black;
-  stroke-dasharray: 5;
   stroke-width: .5;
+  opacity: .5;
 }
 
 .anchor {
-  
-  fill:green ;
-  opacity: 20;
-  stroke: black;
+
+  fill:white ;
+  opacity: 1;
+  stroke: royalblue;
   stroke-width: 1.8;
- /* cursor: crosshair;*/
+  opacity: .9;
 }
 .line{
-  stroke: blue;
-  stroke-width: 3;
+  stroke:royalblue;
+  stroke-width: 6;
+  opacity: .9;
+
 }
 .tooltip{
-  background: black;
-  color: white;
+  background:pink;
+  color: black;
   padding: 5px;
+  border: .5px solid black;
+  border-radius: 2px;
+  box-sizing: border-box;
+   text-align: center;
+
+  position: absolute;
+
+}
+
+
+.outerRect{
+  opacity: .5;
+  fill:white;
+
+}
+
+#heading{
+  margin-left: 300px;
+  margin-right: 200px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+h2{
+  margin-left: 350px;
+}
+h3{
+  margin-left:330px;
+  color: black;
+  opacity: .5; 
+}
+.hairLine{
+  stroke: red;
+  opacity: 1;
+  stroke-dasharray:4;
+  stroke-width: 1.3;
 }
