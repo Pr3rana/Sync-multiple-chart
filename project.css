@@ -10,18 +10,17 @@ body {
 
 .graph {
   height: 600px;
-  width: 680px;
-  margin-top: 10px;
+  width: 595px;
+  margin-top: 30px;
   margin-left: 100px;
   margin-right: 200px;
-  
-
-}
-#main{
   background-color:#f2f2f2;
-  margin-right: 470px;
-   
+  opacity: .8;
 }
+/*#main{
+  background-color:#f2f2f2;
+  opacity:1;  
+}*/
 
 .labels {
   font-size: 15px;
