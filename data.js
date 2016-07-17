@@ -29,12 +29,12 @@ var createChart = function(JSON) //createChart
         var h2 = document.createElement("h2");
         var h3 = document.createElement("h3");
         div.setAttributeNS(null, "class", "heading");
-        
+
         var caption = document.createTextNode(JSON.caption);
         var subCaption = document.createTextNode(JSON.subCaption);
         h2.appendChild(caption);
         h3.appendChild(subCaption);
-        
+
         div.appendChild(h2);
         div.appendChild(h3); //plotting caption and subCaption
 
@@ -143,16 +143,14 @@ var createChart = function(JSON) //createChart
 
             var svg1 = document.createElementNS("http://www.w3.org/2000/svg", "svg");
             var outerRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-            outerRect.setAttributeNS(null,"class","outerRect");
-            outerRect.setAttributeNS(null,"width",500);
-            outerRect.setAttributeNS(null,"height",500);
-            outerRect.setAttributeNS(null,"x",90);
-            outerRect.setAttributeNS(null,"y",40);
-            outerRect.setAttributeNS(null,"stroke","black");
-            outerRect.setAttributeNS(null,"opacity",.5);
-            outerRect.setAttributeNS(null,"stroke-width",.5);
-
-
+            outerRect.setAttributeNS(null, "class", "outerRect");
+            outerRect.setAttributeNS(null, "width", 500);
+            outerRect.setAttributeNS(null, "height", 500);
+            outerRect.setAttributeNS(null, "x", 90);
+            outerRect.setAttributeNS(null, "y", 40);
+            outerRect.setAttributeNS(null, "stroke", "black");
+            outerRect.setAttributeNS(null, "opacity", .5);
+            outerRect.setAttributeNS(null, "stroke-width", .5);
 
 
 
@@ -211,7 +209,7 @@ var createChart = function(JSON) //createChart
                     xAxisName.setAttributeNS(null, "class", "labels");
                     var x2 = document.createTextNode(xAxisTitle);
                     xAxisName.appendChild(x2);
-                  
+
                     svg1.appendChild(xAxisName);
                 }
 
@@ -231,29 +229,65 @@ var createChart = function(JSON) //createChart
         function plotYTick(rangeArray, svg1, yAxisValue2, xAxisArray, yAxisTitle, div, svgIndex) {
 
 
-            var rangeFinder= function(min, max, num) {
+            var rangeFinder = function(min, max, num) {
                 return ((num - min) / (max - min));
             }
 
-
+              
             //plotting of yticks
             for (var j = 0; j <= rangeArray.length - 1; j++) {
                 var rangeCalculator = rangeFinder(Math.min.apply(null, rangeArray), Math.max.apply(null, rangeArray), rangeArray[j]);
                 var xCo_ordinate1 = 50; //for yTicks
                 var yCo_ordinate1 = 540 - (500 * rangeCalculator); //for y ticks
 
-
                 //plotting of yticks
+                 var height = Math.round(500 / (rangeArray.length-1) );
+                console.log(yCo_ordinate1);
+                var yCo_ordinateForInnerRect =(500 * rangeCalculator);
 
                 var yTickValue = document.createElementNS("http://www.w3.org/2000/svg", "text");
 
-                yTickValue.setAttributeNS(null, "x", xCo_ordinate1-5);
-                yTickValue.setAttributeNS(null, "y", yCo_ordinate1+8);
+                yTickValue.setAttributeNS(null, "x", xCo_ordinate1 - 5);
+                yTickValue.setAttributeNS(null, "y", yCo_ordinate1 + 8);
+                
+
+
+                 if(j<=rangeArray.length-2){
+                        var innerRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                        innerRect.setAttributeNS(null,"class","innerRect");
+                        innerRect.setAttributeNS(null,"width",500);
+                        innerRect.setAttributeNS(null,"height",height);
+                        innerRect.setAttributeNS(null,"x",90);
+                        innerRect.setAttributeNS(null,"y",(yCo_ordinateForInnerRect+40) );
+                        if(j%2===0){
+                            innerRect.setAttributeNS(null,"stroke","black");
+                            innerRect.setAttributeNS(null,"fill","white");
+                            innerRect.setAttributeNS(null,"stroke-width",3);
+                            innerRect.setAttributeNS(null,"opacity", .08);
+                        
+                        }
+                        else{
+                            innerRect.setAttributeNS(null,"stroke","black");
+                            innerRect.setAttributeNS(null,"stroke-width",3);
+                            innerRect.setAttributeNS(null,"opacity", .05);
+                        }
+
+                         // outerRect.appendChild(innerRect);
+                         svg1.appendChild(innerRect);
+                         div.appendChild(svg1);
+                         
+                }
+
+
+
+
+
+
                 var yTick = document.createElementNS("http://www.w3.org/2000/svg", "line");
                 yTick.setAttributeNS(null, "class", "divLine");
                 yTick.setAttributeNS(null, "x1", 80);
                 yTick.setAttributeNS(null, "y1", yCo_ordinate1);
-                yTick.setAttributeNS(null, "x2", 590);
+                yTick.setAttributeNS(null, "x2", 90);
                 yTick.setAttributeNS(null, "y2", yCo_ordinate1);
                 var y1 = document.createTextNode(rangeArray[j]);
 
@@ -284,8 +318,8 @@ var createChart = function(JSON) //createChart
 
             // console.log(yAxisValue2,"yaxis");
             var rangeFinder = function(min, max, num) {
-                    return ((num - min) / (max - min));
-                }
+                return ((num - min) / (max - min));
+            }
 
             var flag = 0;
 
@@ -331,11 +365,12 @@ var createChart = function(JSON) //createChart
                 var px = tempX;
                 var py = tempY;
 
-                hairLineData[svgIndex][Math.floor(cx)] = [anchor,yAxisValue2[i] ];
-                console.log(hairLineData[svgIndex][Math.floor(cx)],"check");
+                hairLineData[svgIndex][Math.floor(cx)] = [anchor, yAxisValue2[i]];
+                console.log(hairLineData[svgIndex][Math.floor(cx)], "check");
             }
 
-        }console.log(hairLineData,"index");
+        }
+        console.log(hairLineData, "index");
     };
 // plotting of line beetween anchor points
 function plotLne(px, py, tempX, tempY, svg1, div, svgIndex) {
@@ -355,11 +390,11 @@ function hairLineMove() {
 
         (function(i) {
             var currentSvg = document.getElementsByClassName("graph")[i];
-            var outerRect=document.getElementsByClassName("outerRect")[i];
+            // var innerRect = document.getElementsByClassName("innerRect")[i];
 
 
 
-            outerRect.addEventListener("mousemove", function(event) {
+            currentSvg.addEventListener("mousemove", function(event) {
                 // console.log("mouseenter fired");
                 var anchors = currentSvg.getElementsByClassName("anchor");
                 // console.log(anchors,"anchor")
@@ -368,7 +403,7 @@ function hairLineMove() {
                 });
                 document.dispatchEvent(event);
             });
-            outerRect.addEventListener("mouseout", function(e) {
+            currentSvg.addEventListener("mouseout", function(e) {
                 var event = new CustomEvent("draw", {
                     detail: -1
                 });
@@ -404,35 +439,34 @@ function drawLine(svg, event, i) {
 
     // document.dispatchEvent(event);
 };
-  
+
 
 
 function drawToolTip(mousePos, svg, svgIndex) {
 
-       
-    if(tooltipData[svgIndex] === undefined){
-     timeout =  setTimeout(function() {
-          tooltipData[svgIndex] = document.createElement("div");
-          document.body.appendChild(tooltipData[svgIndex]);
-    }, 0);
-      }
-        else{
+
+    if (tooltipData[svgIndex] === undefined) {
+        timeout = setTimeout(function() {
+            tooltipData[svgIndex] = document.createElement("div");
+            document.body.appendChild(tooltipData[svgIndex]);
+        }, 0);
+    } else {
         document.body.removeChild(tooltipData[svgIndex]);
         tooltipData[svgIndex] = document.createElement("div");
-          document.body.appendChild(tooltipData[svgIndex]);
-        }
+        document.body.appendChild(tooltipData[svgIndex]);
+    }
 
 
-        for(var k = Math.floor(mousePos) -5; k < Math.floor(mousePos) + 5; ++k){
-          console.log(hairLineData[svgIndex][k-106],"hello");
-          if(hairLineData[svgIndex][k - 106]){
-            var style = "position:absolute;top:" + (svgIndex * 700 +180) + "px;left:";
+    for (var k = Math.floor(mousePos) - 5; k < Math.floor(mousePos) + 5; ++k) {
+        console.log(hairLineData[svgIndex][k - 106], "hello");
+        if (hairLineData[svgIndex][k - 106]) {
+            var style = "position:absolute;top:" + (svgIndex * 700 + 180) + "px;left:";
             style += (mousePos + 20) + "px;";
             tooltipData[svgIndex].setAttribute("style", style);
             tooltipData[svgIndex].setAttribute("class", "tooltip");
 
             tooltipData[svgIndex].innerHTML = hairLineData[svgIndex][k - 106][1];
             console.log(hairLineData[svgIndex], k - 106, "hey")
-          }
         }
     }
+}
