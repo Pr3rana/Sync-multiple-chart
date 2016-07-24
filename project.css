@@ -9,19 +9,13 @@ body {
 
 
 .graph {
-  /*height: 650px;
-  width: 550px;*/
+ 
   margin-top: 20px;
  margin-left: 20px;
-/* margin-top: 50px;
- */
  background-color:#f2f2f2;
- /*  opacity: .8;*/
+
 }
-/*#main{
-  background-color:#f2f2f2;
-  opacity:1;  
-}*/
+
 
 .labels {
   font-size: 15px;
