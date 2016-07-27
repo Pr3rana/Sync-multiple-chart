@@ -12,7 +12,7 @@ body {
  
   margin-top: 20px;
  margin-left: 20px;
- background-color:#f2f2f2;
+ background-color:#FFFFFF;
 
 }
 
@@ -47,6 +47,7 @@ body {
   stroke: black;
   stroke-width: .5;
   opacity: .9;
+
 }
 .yTicks {
 
@@ -63,6 +64,7 @@ body {
   opacity: .9;
 }
 .currentAnchor{
+  fill: white;
      stroke: red;
   stroke-width: 3;
 }
@@ -94,6 +96,12 @@ body {
   position: absolute;
 
 }
+.titleRect{
+   fill:#F5FAFE;
+ 
+  stroke: #D6ECFD;
+  stroke-width:2;
+}
 #currentAnchor{
   stroke: red;
   stroke-width:2;
@@ -107,7 +115,7 @@ body {
   stroke-width:.5;
 }
 .innerRect:nth-child(even){
-    fill :#f2f2f2;
+    fill :#F7F7F7;
     opacity: 1;
     stroke:black;
     stroke-width:.5;
@@ -123,9 +131,9 @@ body {
 
 }
 
-#heading{
-  margin-left: 300px;
-  margin-right: 200px;
+.heading{
+  margin-left: 20%;
+  margin-right: 20%;
   padding-bottom: 10px;
   padding-top: 10px;
 }
