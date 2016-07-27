@@ -39,11 +39,14 @@
 				render.appendYAxis(dataSet);
 				render.appendXTick(mappedData);
 				render.appendYTick(mappedData);
+				render.appendXLabel(mappedData,dataSet);
 				render.plotInnerRect(mappedData,dataSet);
 				render.plotLink(mappedData);
 				render.appendAnchor(mappedData);
 				render.plotOuterRect(dataSet);
+				render.appendCaption(dataSet);
 				render.appendText(mappedData,dataSet);
+				render.appendXLabel(mappedData,dataSet);
 			var eventCall = new eventHandlerLine();
 				eventCall.addEvent(dataSet,mappedData);
 				eventCall.addEvent(dataSet,mappedData);
@@ -67,7 +70,7 @@
 	       		getData.xAxisTickPos(getData.yAxisArray);
 
 	       		getData.yAxisTickPos(getData.yAxisArray,getData.mappedData);
-	       	
+	       		
 	       		getData.anchorPos(getData.yAxisArray,getData.mappedData);
 	       		var mappedData = getData.mappedData;
 	       		
@@ -80,8 +83,10 @@
 					// render.appendXTick(mappedData);
 					render.appendYTick(mappedData);
 					render.plotInnerRect(mappedData,dataSet);
+					render.appendXLabel(mappedData,dataSet);
 					// render.appendAnchor(mappedData);
 					render.plotOuterRect(dataSet);
+					render.appendCaption(dataSet);
 					render.plotColumn(mappedData,dataSet);
 					render.appendText(mappedData,dataSet);
 				var eventCall = new eventHandlerColumn();
@@ -361,7 +366,7 @@ var tooltipData =[];
             		anchorPos[i] = anchors;
             		mappedData[i].anchorPos= anchorPos;
             		mappedData[i].yData = tooltipData;
-            		console.log(mappedData);
+            		
                 	//plotting of yticks
             }
  		}
@@ -451,7 +456,20 @@ var tooltipData =[];
 					
 				}
 			}
+		chartRender.prototype.appendCaption = function(dataSet){
+			 var div = document.getElementById("top");
+	        var h2 = document.createElement("h2");
+	        var h3 = document.createElement("h3");
+	        div.setAttributeNS(null, "class", "heading");
 
+	        var caption = document.createTextNode(dataSet.caption);
+	        var subCaption = document.createTextNode(dataSet.subCaption);
+	        h2.appendChild(caption);
+	        h3.appendChild(subCaption);
+
+	        div.appendChild(h2);
+	        div.appendChild(h3);
+		}
 		
 
 		chartRender.prototype.appendXAxis = function(dataSet){
@@ -593,7 +611,7 @@ var tooltipData =[];
 				var anchorXPos =  mappedData[i].anchorPos[i].xTickPos;
 				var anchorYPos =  mappedData[i].anchorPos[i].yTickPos;
 				var h1 = dataSet[i].height -(dataSet[i].width*30)/100;
-				var width = (dataSet[i].width -(dataSet[i].width*30) /100)/(2*mappedData.length +1);
+				var width = (dataSet[i].width -(dataSet[i].width*30) /100)/(2*mappedData.length + 1);
 	           var flag = 0;
 				for (var j = 0; j < anchorXPos.length; j++) {
 					
@@ -608,7 +626,7 @@ var tooltipData =[];
 						
 					// }
 					
-					var tempX = x1 + ((dataSet[i].width -(dataSet[i].width*30) /100)/(2*mappedData.length +1))/2;
+					var tempX = x1;
                 	var tempY = y1;
 					
                 	
@@ -732,7 +750,8 @@ var tooltipData =[];
 		            
 		            outerRect.addEventListener("mouseout", function(event){mouseOutHandler(event,dataSet,mappedData,i)});
 		               
-		            document.addEventListener("draw", function(event){drawHandler(event,dataSet,mappedData,i)});
+		            document.addEventListener("draw", function(event){drawLine(event,dataSet,mappedData,i),
+        														drawToolTip(event,dataSet,mappedData,i)});
 
 		        })(i);
         }
@@ -744,30 +763,21 @@ var tooltipData =[];
 	       
 	    var svg = document.getElementsByClassName("graph")[i];
 	    var offset = svg.getBoundingClientRect().left;
-        var event = new CustomEvent("draw", {
-            detail: event.clientX - offset
+        var event1 = new CustomEvent("draw", {
+            detail: {"xPos":event.clientX - offset,"target":event.currentTarget}
         })
-        document.dispatchEvent(event);
+        document.dispatchEvent(event1);
 	        
 	}
 
 	var mouseOutHandler = function(event,dataSet,mappedData,i){
 	    
 		
-        var event = new CustomEvent("draw", {
-            detail: -100000000
+        var event2 = new CustomEvent("draw", {
+            detail: {"xPos":-1}
         })
-        document.dispatchEvent(event);
+        document.dispatchEvent(event2);
 	        
-	}
-
-	var drawHandler = function(event,dataSet,mappedData,i){
-		
-        document.addEventListener("draw", function(event) {
-        drawLine(event,dataSet,mappedData,i);
-        drawToolTip(event,dataSet,mappedData,i);
-   		});
-           
 	}
 	var line = [];
 	var drawLine =function(event,dataSet,mappedData,i){
@@ -775,9 +785,10 @@ var tooltipData =[];
 		
 		var svgArray = document.getElementsByClassName("graph");
 		var currentSvg = svgArray[i];
+		
 		var width = dataSet[i].width -(dataSet[i].width*30) /100;
         var height = dataSet[i].height -(dataSet[i].width*30)/100;
-        var x1= event.detail;
+        var x1= event.detail.xPos;
         var x2 =x1;
         var y1= (height*10)/100;
         var y2 = height + (height*10)/100;
@@ -797,6 +808,7 @@ var tooltipData =[];
 	var tooltip = [];
 	var drawToolTip = function(event,dataSet,mappedData,svgIndex){
 	 
+	 
 		var svgArray = document.getElementsByClassName("graph");
 		var currentSvg = svgArray[svgIndex];
 		var ydata = mappedData[svgIndex].yData[svgIndex];
@@ -807,29 +819,45 @@ var tooltipData =[];
 	    if (tooltip[svgIndex] === undefined) {
 	        tooltip[svgIndex] = document.createElement("div");
 	        document.body.appendChild(tooltip[svgIndex]);
+
 	    
     	} 
 	    else {
 	        document.body.removeChild(tooltip[svgIndex]);
 	        tooltip[svgIndex] = document.createElement("div");
 	        document.body.appendChild(tooltip[svgIndex]);
+	  
 	    }
-	    console.log(event.detail +offsetLeft ,"event");
 	   
-	     // for (var k = Math.floor(event.detai) - 5; k < Math.floor(event.detail) + 5; ++k) {
-		    if (mappedData[svgIndex].yData[svgIndex][event.detail]) {
+	     
+		    if (mappedData[svgIndex].yData[svgIndex][event.detail.xPos]) {
 		        var style = "position:absolute;top:" + offsetTop + "px;left:";
-		        style += (event.detail)+offsetLeft + "px;";
+		        style += offsetLeft + "px;";
 		        tooltip[svgIndex].setAttribute("style", style);
-		        var anchor = currentSvg.getElementsByClassName("anchor")[svgIndex];
-		        console.log(anchor);
-		        anchor.setAttribute("id","currentAnchor");
-		       
+		        var anchorAraay = currentSvg.getElementsByClassName("anchor");
+		        for (var i = 0; i < anchorAraay.length; i++) {
+		        	var anchor = anchorAraay[i];
+		        	var xpos = anchor.getAttributeNS(null,"cx");
+		        	if(xpos == event.detail.xPos){
+		        		anchor.style.stroke = "red";
+		        		anchor.style.strokeWidth = 3;
+		        		tool(mappedData,svgIndex);
+		        	}
+		        	else{
+		        		
+		        		anchor.style.stroke = "royalblue";
+		        		anchor.style.strokeWidth = 1.8;
+		        	}
+		        }
+		        function tool(mappedData,svgIndex) {
+		        	// body...
 		        tooltip[svgIndex].setAttribute("class", "tooltip");
-		        var text  = document.createTextNode(mappedData[svgIndex].yData[svgIndex][event.detail]);
-		        console.log(text,"text");
+		        var text  = document.createTextNode(mappedData[svgIndex].yData[svgIndex][event.detail.xPos]);
+		       
 		        tooltip[svgIndex].appendChild(text);
 		        currentSvg.appendChild(anchor);
+		        }
+
 		    
 		}
 
@@ -845,9 +873,9 @@ var tooltipData =[];
 		 			
 		            currentColumn.addEventListener("mousemove", function (event){mousemoveHandler1(event,dataSet,mappedData,i)});    
 		            
-		            currentColumn.addEventListener("mouseout", function(event){mouseOutHandler1(event,dataSet,mappedData,i)});
+		            currentColumn.addEventListener("mouseleave", function(event){mouseOutHandler1(event,dataSet,mappedData,i)});
 		               
-		            document.addEventListener("draw", function(event){showToolTip(event,dataSet,mappedData,i)});
+		            document.addEventListener("draw", function(event){showToolTip(event,dataSet,mappedData)});
 
 
 		        })(i);
@@ -871,26 +899,41 @@ var tooltipData =[];
 	var mouseOutHandler1 = function(event,dataSet,mappedData,i){
 	    var columnArray = document.getElementsByClassName("column");
 		var currentColumn = columnArray[i];
-
+		var svg = currentColumn.parentNode;
+		var offsetLeft = svg.getBoundingClientRect().left;
+ 		var offsetTop = svg.getBoundingClientRect().top;
         var event2 = new CustomEvent("draw", {
-            detail:{"xPos":-1000000, "yPos":-1000000}
+            detail:{"xPos":-1, "yPos":-1}
+
         })
+        
        	document.dispatchEvent(event2);
 	        
 	};
 
 	
 	var tooltip1 = [];
-	function showToolTip(event,dataSet,mappedData,i){
+	function showToolTip(event,dataSet,mappedData){
 		var columnArray = document.getElementsByClassName("column");
-		var currentColumn = columnArray[i];
+		for (var i = 0; i < columnArray.length; i++) {
+			
 		
-		var width = currentColumn.getAttributeNS(null, "width");
-		var height = currentColumn.getAttributeNS(null,"height");
-		var x1 = currentColumn.getAttributeNS(null,"x");
-		var y1 = currentColumn.getAttributeNS(null,"y");
-		console.log(width,height,x1,y1,"check");
-		console.log(event.detail.xPos,event.detail.yPos,"event");
+		var currentColumn = columnArray[i];
+		var svgArray = Array.from(document.getElementsByClassName("graph"));
+		
+		var svg = currentColumn.parentNode; 
+		var svgIndex = svgArray.indexOf(currentColumn.parentNode);
+		
+		var offsetLeft = svg.getBoundingClientRect().left;
+ 		var offsetTop = svg.getBoundingClientRect().top;
+		
+
+		var width = Number(currentColumn.getAttributeNS(null, "width"));
+		var height = Number(currentColumn.getAttributeNS(null,"height"));
+		var x1 = Number(currentColumn.getAttributeNS(null,"x"));
+		var y1 = Number(currentColumn.getAttributeNS(null,"y"));
+		// console.log(width,height,x1,y1,"check");
+		// console.log(event.detail.xPos,event.detail.yPos,"event");
 	    if (tooltip1[i] === undefined) {
 	        tooltip1[i] = document.createElement("div");
 	        document.body.appendChild(tooltip1[i]);
@@ -901,26 +944,151 @@ var tooltipData =[];
 	        tooltip1[i] = document.createElement("div");
 	        document.body.appendChild(tooltip1[i]);
 	    }
-	    // console.log((event.detail.xPos>x1 && event.detail.xPos > x1+width && event.detail.yPos >y1 && event.detail.yPos < y1+height))
-		    if (event.detail.xPos>x1 && event.detail.xPos > x1+width && event.detail.yPos >y1 && event.detail.yPos < y1+height) {
+		    if (event.detail.xPos > x1 && event.detail.xPos < x1 + width ) {
 		        
-		        var style = "position:absolute;top:" + event.detail.yPos + "px;left:";
-		        style += (event.detail.xPos) + "px;";
+		        var style = "position:absolute;top:" +offsetTop+ "px;left:";
+		        style += offsetLeft + "px;";
 		        tooltip1[i].setAttribute("style", style);
-		        console.log(event.currentTarget,"currentTarget");
-		      
+		        console.log(currentColumn,"currentColumn");
 		        currentColumn.style.fill=("#BC4445");
 		       
 		        tooltip1[i].setAttribute("class", "tooltip");
-		        var text  = document.createTextNode("hi");
-		        console.log(text,"text");
-		        tooltip1[i].appendChild(text);
 		       
-		   
+		        var text  = document.createTextNode(mappedData[svgIndex].yData[svgIndex][x1]);
+		        tooltip1[i].appendChild(text);
+					
+		       
+		       
+		}
+		else {
+			currentColumn.style.fill=("#1E7ACD");
+		}
+	}
+}
+	// var removeToolTip = function(event,i){
+	// 	var columnArray = document.getElementsByClassName("column");
+	// 	var currentColumn = columnArray[i];
+	// 	var width = currentColumn.getAttributeNS(null, "width");
+	// 	var height = currentColumn.getAttributeNS(null,"height");
+	// 	var x1 = currentColumn.getAttributeNS(null,"x");
+	// 	var y1 = currentColumn.getAttributeNS(null,"y");
+	// 	console.log("remove");
+	// 	console.log(event.detail.xPos<x1 || event.detail.xPos >x1+width || event.detail.yPos <y1 || event.detail.yPos > y1+height,"check");
+	// 	if (event.detail.xPos<x1 || event.detail.xPos >x1+width || event.detail.yPos <y1 || event.detail.yPos > y1+height) {
+	// 	currentColumn.style.fill=("#1E7ACD");
+	// 	}
+	// }
+	chartRender.prototype.noOfChart = function(){
+		var w = window.innerWidth;
+		var svgArray = document.getElementsByClassName("graph");
+		
+		for(var i=0;i<svgArray.length;i++){
+	 		var chartWidth = parseInt(svgArray[i].getAttributeNS(null,"width"));
+	 		
+		}
+		var noOfChartInRow = Math.floor(w /(chartWidth));
+		
+		
+		return noOfChartInRow;
+	}
+
+
+	chartRender.prototype.appendXLabel = function(mappedData,dataSet){
+		var w = window.innerWidth;
+		
+		var svgArray = document.getElementsByClassName("graph");
+		var noOfChartInRow = this.noOfChart();
+		
+		if(svgArray.length%noOfChartInRow == 0){
+			
+			xLabelsAtBottom(dataSet,mappedData,noOfChartInRow);
+		}
+		else{
+
+			xLabelsOnTop(dataSet,mappedData,noOfChartInRow);
 		}
 	}
 
-	
+	function xLabelsAtBottom(dataSet,mappedData,noOfChartInRow){
+		var w = window.innerWidth;
+		
+		for (var i = 0; i < dataSet.length; i++) {
+					var svg = document.getElementsByClassName("graph")[i];
+					var width = svg.getAttributeNS(null,"width");
+					var width1 = dataSet[i].width -(dataSet[i].width*30) /100;
+					var height = svg.getAttributeNS(null,"height");
+					
+					var noOfChartInRow = Math.floor(w/width);
+					var xTicksXPos =  mappedData[i].xTicks.xPos;
+					var xTicksYPos =  mappedData[i].xTicks.yPos;
+					var XrangeArray = dataSet[i].xdata; 
+					var seriesName = dataSet[i].seriesName;
+				for (var j = 0; j < xTicksXPos.length; j++) {
+					
+					var x1 = xTicksXPos[j];
+					var x2= (width1*20)/100;
+					var y1 = xTicksYPos[j] +20;
+					var y2= (height*.2)/100;
+					var text = XrangeArray[j];
+					
+					var appendTitle = new drawChart();
+					var titleRect = appendTitle.plotRect(width1,(height*6)/100,x2,y2,"titleRect");
+					var title = appendTitle.appendText(x2+width1/3,y2+(height*10)/200,seriesName);
+					svg.appendChild(titleRect);
+					svg.appendChild(title);
+					if(i==dataSet.length-1){
+						var appendText = new drawChart();
+						var data = appendText.appendText(x1,y1,text);
+						
+				 	    svg.appendChild(data);
+				 	  
+			 		}
+				}
+		}
+	}
+
+
+	function xLabelsOnTop(dataSet,mappedData,noOfChartInRow){
+		var w = window.innerWidth;
+		
+		for (var i = 0; i < dataSet.length; i++) {
+		
+					var svg = document.getElementsByClassName("graph")[i];
+					var width = svg.getAttributeNS(null,"width");
+					var width1 = dataSet[i].width -(dataSet[i].width*30) /100;
+					var height = svg.getAttributeNS(null,"height");
+					var height1 = dataSet[i].height -(dataSet[i].width*30)/100;
+					var xTicksXPos = mappedData[i].xTicks.xPos ;
+					var xTicksYPos =  mappedData[i].xTicks.yPos;
+					var XrangeArray = dataSet[i].xdata; 
+					var seriesName = dataSet[i].seriesName;
+					
+				for (var j = 0; j < xTicksXPos.length; j++) {
+					var x1 = xTicksXPos[j];
+					var x2= (width1*20)/100;
+					var y1= (height*5)/100;
+					var y2 = height1 + (height1*15)/100;
+					
+					var text = XrangeArray[j];
+					var appendTitle = new drawChart();
+					var titleRect = appendTitle.plotRect(width1,(height1*10)/100,x2,y2,"titleRect");
+					var title = appendTitle.appendText(x2+width1/3,y2+(height1*10)/200,seriesName);
+					svg.appendChild(titleRect);
+					 svg.appendChild(title);
+					if(i<noOfChartInRow){
+					var appendText = new drawChart();
+					var data = appendText.appendText(x1,y1,text);
+			 	    svg.appendChild(data);
+					}
+					
+				}
+			}
+	}
+
+
+
+
+
 	parsing();
 	
 

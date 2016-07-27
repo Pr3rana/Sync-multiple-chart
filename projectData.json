@@ -2,8 +2,8 @@
   "subCaption":"Multi Variate Chart",
   "xAxisName": "Time_Axis",
   "chartType":"column",
-  "width":300,
-  "height":300,
+  "width":500,
+  "height":500,
   "yAxisName":[
   {"yAxis":"Axis_Name 01"},
   {"yAxis":"Axis_Name 02"},
@@ -13,31 +13,31 @@
 ],
   "dataSet":
   [{
-  "xdata":"Time1",
+  "xdata":"T1",
   "ydata":[1,455,200,254,4]
   },
   {
-  "xdata":"Time2",
+  "xdata":"T2",
   "ydata":[3,688,"",530,0.4]
   },
-  {"xdata":"Time3",
+  {"xdata":"T3",
   "ydata":[0.8,166,150,675,0.6]
   },
-  {"xdata":"Time4",
+  {"xdata":"T4",
   "ydata":["",700,180,403,1]
   },
-  {"xdata":"Time5",
+  {"xdata":"T5",
   "ydata":[0.4,573,190,784,5]
   },
-  {"xdata":"Time6",
+  {"xdata":"T6",
   "ydata":["",333,170,120,0.8]
   },
 
   {
-  "xdata":"Time7",
+  "xdata":"T7",
   "ydata":["",688,"",530,1]
   },
-  {"xdata":"Time8",
+  {"xdata":"T8",
   "ydata":["",166,150,675,1]
   }]
 }
